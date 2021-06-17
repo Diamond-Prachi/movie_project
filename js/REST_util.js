@@ -1,6 +1,6 @@
 "use strict";
 //getMovies();
-getMovie(2);
+//getMovie(2);
 //postMovie();
 // deleteMovie();
 // updateMovie(19);
