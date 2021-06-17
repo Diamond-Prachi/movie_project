@@ -1,6 +1,7 @@
 "use strict";
 getMovies();
-postMovies();
+//postMovie();
+deleteMovie();
 
 function getMovies() {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
@@ -15,7 +16,7 @@ function getMovies() {
         .catch(error => console.error(error)); /* handle errors */
 }
 
-function postMovies() {
+function postMovie() {
     let movie = {
         "title": "Harry Potter and the Sorceror's Stone 8",
         "rating": "5",
@@ -39,4 +40,16 @@ function postMovies() {
         .then(response => console.log(response.json())) /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
 
+}
+function deleteMovie(id) {
+    const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
+    fetch(url, options)
+        .then(response => console.log(response.json())) /* Movie was created successfully */
+        .catch(error => console.error(error)); /* handle errors */
 }
