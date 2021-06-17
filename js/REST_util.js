@@ -1,5 +1,5 @@
 "use strict";
-//getMovies();
+getMovies();
 //getMovie(2);
 //postMovie();
 // deleteMovie();
@@ -14,7 +14,10 @@ function getMovies() {
         }
     };
     fetch(url, options)
-        .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(response =>
+            response.json()
+        ).then(data => showMovies(data))
+        /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
 }
 
@@ -48,7 +51,7 @@ function postMovie() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body:JSON.stringify(movie)
+        body: JSON.stringify(movie)
 
     };
     fetch(url, options)
@@ -56,6 +59,7 @@ function postMovie() {
         .catch(error => console.error(error)); /* handle errors */
 
 }
+
 function deleteMovie(id) {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
     const options = {
@@ -86,7 +90,7 @@ function updateMovie(id) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body:JSON.stringify(movie)
+        body: JSON.stringify(movie)
 
     };
     fetch(url, options)
