@@ -1,6 +1,7 @@
 "use strict";
 showLoading();
 getMovies();
+// getMovieFromOMDB("Friday");
 
 function getMovies() {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
@@ -81,5 +82,16 @@ function updateMovie(id, movie) {
     fetch(url, options)
         .then(response => console.log(response.json())) /* Movie was created successfully */
         .then(_ => getMovies())
+        .catch(error => console.error(error)); /* handle errors */
+}
+
+function getMovieFromOMDB(movieName){
+    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&s=${movieName}`;
+    console.log(url);
+    const options = {
+        method: 'GET'
+    };
+    fetch(url, options)
+        .then(response => console.log(response.json())) /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
 }

@@ -139,3 +139,8 @@ function cardHoverEventListener(){
     }
     $(".movie-card").hover(hoverIn, hoverOut)
 }
+$("#searchBtn").click(function(){
+    getMovieFromOMDB($("#searchInput").val());
+    // console.log($("#searchInput").val());
+})
+
