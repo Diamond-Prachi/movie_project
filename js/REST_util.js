@@ -1,9 +1,6 @@
 "use strict";
+showLoading();
 getMovies();
-//getMovie(2);
-//postMovie();
-// deleteMovie();
-// updateMovie(19);
 
 function getMovies() {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
@@ -14,11 +11,17 @@ function getMovies() {
         }
     };
     fetch(url, options)
-        .then(response =>
-            response.json()
-        ).then(data => showMovies(data))
+        .then(response => response.json()
+        ).then(data => {
+        $("#loader").hide(500);//h
+        showMovies(data)
+    })
         /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
+}
+
+function showLoading() {
+
 }
 
 function getMovie(id) {
@@ -34,17 +37,7 @@ function getMovie(id) {
         .catch(error => console.error(error)); /* handle errors */
 }
 
-function postMovie() {
-    let movie = {
-        "title": "Harry Potter and the Sorceror's Stone 8",
-        "rating": "5",
-        "year": "2004",
-        "genre": "fantasy, adventure, narrative",
-        "director": "Alfonso Cuarón",
-        "plot": "Harry Potter's (Daniel Radcliffe) third year at Hogwarts starts off badly when he learns deranged killer Sirius Black",
-        "actors": "DANIEL RADCLIFFE, EMMA WATSON, RUPERT GRINT, MAGGIE SMITH, ALAN RICKMAN, GARY OLDMAN, FIONA SHAW, TIMOTHY SPALL, EMMA THOMPSON"
-    }
-
+function postMovie(movie) {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
     const options = {
         method: 'POST',
@@ -56,6 +49,7 @@ function postMovie() {
     };
     fetch(url, options)
         .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(_ => getMovies())
         .catch(error => console.error(error)); /* handle errors */
 
 }
@@ -70,23 +64,14 @@ function deleteMovie(id) {
     };
     fetch(url, options)
         .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(_ => getMovies())
         .catch(error => console.error(error)); /* handle errors */
 }
 
-function updateMovie(id) {
-    let movie = {
-        "title": "Harry Potter 10",
-        "rating": "5",
-        "year": "2004",
-        "genre": "fantasy, adventure, narrative",
-        "director": "Alfonso Cuarón",
-        "plot": "Harry Potter's (Daniel Radcliffe) third year at Hogwarts starts off badly when he learns deranged killer Sirius Black",
-        "actors": "DANIEL RADCLIFFE, EMMA WATSON, RUPERT GRINT, MAGGIE SMITH, ALAN RICKMAN, GARY OLDMAN, FIONA SHAW, TIMOTHY SPALL, EMMA THOMPSON"
-    }
-
+function updateMovie(id, movie) {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
     const options = {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -95,6 +80,6 @@ function updateMovie(id) {
     };
     fetch(url, options)
         .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(_ => getMovies())
         .catch(error => console.error(error)); /* handle errors */
-
 }
