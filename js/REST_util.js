@@ -91,3 +91,15 @@ function getMovieFromOMDB(movieName){
         .then(data => creatOMDBMovieObj(data))
         .catch(error => console.error(error)); /* handle errors */
 }
+
+function searchMovieFromOMDB(movieName){
+    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&s=${movieName}`;
+    console.log(url);
+    const options = {
+        method: 'GET'
+    };
+    fetch(url, options)
+        .then(response => response.json()) /* Movie was created successfully */
+        .then(data => showMovieSearchResult(data))
+        .catch(error => console.error(error)); /* handle errors */
+}

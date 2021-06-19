@@ -180,7 +180,7 @@ function cardHoverEventListener() {
 }
 
 $("#searchBtn").click(function () {
-    getMovieFromOMDB($("#searchInput").val());
+    searchMovieFromOMDB($("#searchInput").val());
 })
 
 function showBanner(isEditorChoice) {
@@ -191,21 +191,30 @@ function showBanner(isEditorChoice) {
     }
 }
 
-function creatOMDBMovieObj(data) {
-    console.log(data)
-    let OMDBmovie = data
-    let movie = {
-        title: OMDBmovie.Title ? OMDBmovie.Title : "",
-        year: OMDBmovie.Year ? OMDBmovie.Year : "",
-        director: OMDBmovie.Director ? OMDBmovie.Director : "",
-        actors: OMDBmovie.Actors ? OMDBmovie.Actors : "",
-        imdbID: OMDBmovie.imdbID ? OMDBmovie.imdbID : "",
-        poster: OMDBmovie.Poster,
-        genre: OMDBmovie.Genre ? OMDBmovie.Genre : "",
-        plot: OMDBmovie.Plot ? OMDBmovie.Plot : "",
-        language: OMDBmovie.Language ? OMDBmovie.Language : ""
-    };
-    console.log(movie)
-    postMovie(movie)
-    refreshPage()
+function creatOMDBMovieObj(OMDBmovie) {
+    console.log(OMDBmovie)
+    if(!OMDBmovie.Error){
+        let movie = {
+            title: OMDBmovie.Title ? OMDBmovie.Title : "",
+            year: OMDBmovie.Year ? OMDBmovie.Year : "",
+            director: OMDBmovie.Director ? OMDBmovie.Director : "",
+            actors: OMDBmovie.Actors ? OMDBmovie.Actors : "",
+            imdbID: OMDBmovie.imdbID ? OMDBmovie.imdbID : "",
+            poster: OMDBmovie.Poster,
+            genre: OMDBmovie.Genre ? OMDBmovie.Genre : "",
+            plot: OMDBmovie.Plot ? OMDBmovie.Plot : "",
+            language: OMDBmovie.Language ? OMDBmovie.Language : "",
+            rating: ((OMDBmovie.imdbRating)/2).toFixed(0)
+        };
+        console.log(movie)
+        postMovie(movie)
+        refreshPage()
+    }else{
+        console.log(OMDBmovie.Error)
+    }
+
+}
+
+function showMovieSearchResult(movieResults){
+    console.log(movieResults)
 }
