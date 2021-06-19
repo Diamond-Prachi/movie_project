@@ -1,5 +1,4 @@
 "use strict";
-showLoading();
 getMovies();
 // getMovieFromOMDB("Friday");
 
@@ -19,10 +18,6 @@ function getMovies() {
     })
         /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
-}
-
-function showLoading() {
-
 }
 
 function getMovie(id) {
@@ -49,7 +44,7 @@ function postMovie(movie) {
 
     };
     fetch(url, options)
-        .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(response => response.json()) /* Movie was created successfully */
         .then(_ => getMovies())
         .catch(error => console.error(error)); /* handle errors */
 
@@ -86,12 +81,13 @@ function updateMovie(id, movie) {
 }
 
 function getMovieFromOMDB(movieName){
-    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&s=${movieName}`;
+    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&t=${movieName}`;
     console.log(url);
     const options = {
         method: 'GET'
     };
     fetch(url, options)
-        .then(response => console.log(response.json())) /* Movie was created successfully */
+        .then(response => response.json()) /* Movie was created successfully */
+        .then(data => creatOMDBMovieObj(data))
         .catch(error => console.error(error)); /* handle errors */
 }

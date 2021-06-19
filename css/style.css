@@ -27,9 +27,15 @@
 }
 
 .card-img-top {
-
     object-fit: cover;
+}
 
-
-
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color:white;
+    background: rgba(90, 175, 4, 0.5);
+    padding: 0.3rem;
 }
