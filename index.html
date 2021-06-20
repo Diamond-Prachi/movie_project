@@ -29,17 +29,57 @@
                             <button type="button" id="searchBtn" class="btn btn-secondary">Search</button>
                         </div>
                         <div id="searchResults">
-
+                            <!--      Div to show SearchResults     -->
                         </div>
-                        <p>
-                            <a id="BollywoodBtn" href="#" class="btn btn-primary my-2">Bollywood</a>
-                            <a href="#" class="btn btn-secondary my-2">Hollywood</a>
-                        </p>
+
+
+<!--                        <p>-->
+<!--                            <a id="BollywoodBtn" href="#" class="btn btn-primary my-2">Bollywood</a>-->
+<!--                            <a href="#" class="btn btn-secondary my-2">Hollywood</a>-->
+<!--                        </p>-->
                     </div>
+
                 </div>
-                <div id="loader" class="text-center">
+                <div id="loader" class="text-center d-none">
                     <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                         <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center mt-5">
+                    <div class="form-row mx-0">
+                        <div class="form-group mr-sm-1 col-md-5 ">
+                            <select class="form-control " id="langSelect">
+                                <option>Language</option>
+                                <option>English</option>
+                                <option>Hindi</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select class="form-control" id="genreSelect">
+                                <option>Genre</option>
+                                <option>Action</option>
+                                <option>Comedy</option>
+                                <option>Drama</option>
+                                <option>Fantasy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group mr-sm-1 col-md-6">
+                            <select class="form-control " id="sortSelect">
+                                <option>Sort</option>
+                                <option>Title (A-Z)</option>
+                                <option>Title (Z-A)</option>
+                                <option>Newest-Oldest</option>
+                                <option>Oldest-Newest</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <select class="form-control" id="pagesSelect">
+                                <option>Show all</option>
+
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div id="addMovieForm" class="d-none container">
@@ -63,7 +103,6 @@
                         <div class="form-group text-left">
                             <select class="form-control" id="ratingSelect">
                                 <option selected>Rating</option>
-                                >
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>

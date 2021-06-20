@@ -3,8 +3,9 @@
 let movies
 
 function showMovies(movies) {
-    console.log(movies)
-    movies.reverse().forEach(function (movie, index) {
+    let filteredMovies = filterMovies(movies);
+    console.log(filteredMovies)
+    filteredMovies.reverse().forEach(function (movie, index) {
         let movieCard =
             `<div class="movie-card col mb-3">
                 <div class=" card shadow-sm">
@@ -19,7 +20,7 @@ function showMovies(movies) {
                         <p id="plot" contenteditable="false" placeholder="Add Plot" class="card-text overflow-auto" >${movie.plot}</p>
                         <div class="isEditorChoiceDiv pl-3 mb-2 d-none">
                             <input class="isEditorChoice form-check-input pl-2 text-muted " data-id="${movie.id}"  
-                                    type="checkbox" ${movie.isEditorChoice? "checked" : ""}>Editor's Choice
+                                    type="checkbox" ${movie.isEditorChoice ? "checked" : ""}>Editor's Choice
                         </div>
                         <div class="ctr-grp d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -38,8 +39,93 @@ function showMovies(movies) {
             </div>`
         $("#moviesDiv").append(movieCard);
     });
-
     addListeners();
+}
+
+function filterMovies(movies) {
+    let langFilteredMovies = [];
+    let genreFilteredMovies = [];
+    let sortedMovies = [];
+    let filteredMovies = movies;
+    let language = '';
+    let genre = '';
+    let sort = '';
+    if ($("#langSelect").val() !== 'Language') {
+        language = $("#langSelect").val();
+        langFilteredMovies = movies.filter(function (movie) {
+            if (movie.language === undefined) return false;
+            return movie.language.includes(language);
+        });
+        filteredMovies = langFilteredMovies;
+    }
+
+    console.log(langFilteredMovies)
+    if ($("#genreSelect").val() !== 'Genre') {
+        genre = $("#genreSelect").val();
+        genreFilteredMovies = filteredMovies.filter(function (movie) {
+            if (movie.genre === undefined) return false;
+            return movie.genre.includes(genre);
+        });
+        filteredMovies = genreFilteredMovies;
+    }
+
+    if ($("#sortSelect").val() !== 'Sort') {
+        sort = $("#sortSelect").val();
+        if (sort === 'Title (A-Z)') {
+            sortedMovies = filteredMovies.sort(function (a, b) {
+                if (a.title > b.title) {
+                    return -1;
+                }
+                if (a.title < b.title) {
+                    return 1;
+                }
+                return 0;
+            });
+        } else if (sort === 'Title (Z-A)') {
+            sortedMovies = filteredMovies.sort(function (a, b) {
+                if (a.title < b.title) {
+                    return -1;
+                }
+                if (a.title > b.title) {
+                    return 1;
+                }
+                return 0;
+            });
+        } else if (sort === 'Newest-Oldest') {
+            sortedMovies = filteredMovies.sort(function (a, b) {
+                return a.year - b.year
+            })
+        } else if (sort === 'Oldest-Newest') {
+            sortedMovies = filteredMovies.sort(function (a, b) {
+                return b.year - a.year
+            })
+        }
+        filteredMovies = sortedMovies;
+    }
+    refreshPage();
+    return filteredMovies;
+}
+
+function sortMovies(movies) {
+    let sortedMovies = [];
+    // sortedMovies = movies.sort(function (a, b){
+    //     return b.year - a.year
+    // })
+
+    sortedMovies = movies.sort(function (a, b) {
+        if (a.title < b.title) {
+            return -1;
+        }
+        if (a.title > b.title) {
+            return 1;
+        }
+        return 0;
+    })
+    console.log(sortedMovies)
+}
+
+function showMoviesByPage(movies) {
+    console.log(movies.slice(3, 9));
 }
 
 function refreshPage() {
@@ -133,7 +219,7 @@ function editSaveClickEventListener() {
             // Hide banner
             //$("#banner").toggleClass("d-none", true);
             // Show editor's choice checkbox
-             $(".isEditorChoiceDiv").toggleClass("d-none");
+            $(".isEditorChoiceDiv").toggleClass("d-none");
 
             //change names of the button
             $(this).text("Save");
@@ -209,22 +295,24 @@ function creatOMDBMovieObj(OMDBmovie) {
         postMovie(movie)
         refreshPage()
     } else {
-        console.log(OMDBmovie.Error)
+        alert(OMDBmovie.Error)
     }
 
 }
 
 function showMovieSearchResult(movieResults) {
     console.log(movieResults.Search)
+    let moviesFromGlitch = getMoviesForFilter()
     let movieSearchResult = movieResults.Search;
     let movieResultDiv =
         ` <div  class="border text-left px-3 bg-light border-top-0">`
 
     movieSearchResult.forEach(function (movie) {
+        console.log(movie)
         movieResultDiv +=
             `<div class="addMovieFromOMDB d-flex justify-content-between" 
-                    data-name="${movie.Title}" data-year="${movie.Year}" data-id='${movie.imdbID}'>
-                <p class="d-inline mb-0">${movie.Title}</p>
+                    data-name="${movie.Title}" data-year="${movie.Year}" data-id="${movie.imdbID}">
+                <p class="d-inline mb-0">${movie.Title} (${movie.Type}-${movie.Year})</p>
                 <a  href="#">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -253,9 +341,10 @@ function showMovieSearchResult(movieResults) {
 function addAddMovieEventListener() {
     $(".addMovieFromOMDB").click(function () {
         let id = $(this).data('id');
-        if(confirm(`Would you like to ${$(this).data('name')}, year: ${$(this).data('year')}`)){
+        if (confirm(`Would you like to ${$(this).data('name')}, year: ${$(this).data('year')}?`)) {
             getMovieFromOMDB(id);
             refreshPage()
+            $("#searchResults").hide(500);
             $("#searchResults").empty();
             $("#searchInput").val("");
         }
@@ -270,16 +359,16 @@ function addAddMovieEventListener() {
     })
 }
 
-$("#BollywoodBtn").click(function (){
+$("#BollywoodBtn").click(function () {
     getMoviesForFilter();
 })
 
-function showBollywoodMovies(movies){
+function showBollywoodMovies(movies) {
     console.log(movies)
-    let bollywoodMovies=[]
-    for(let i = 0; i<movies.length; i++){
-        if(movies[i].language !== undefined){
-            if(movies[i].language.includes("Hindi")){
+    let bollywoodMovies = []
+    for (let i = 0; i < movies.length; i++) {
+        if (movies[i].language !== undefined) {
+            if (movies[i].language.includes("Hindi")) {
                 bollywoodMovies.push(movies[i])
             }
         }
@@ -287,3 +376,16 @@ function showBollywoodMovies(movies){
     refreshPage();
     showMovies(bollywoodMovies);
 }
+
+$("#langSelect").change(function () {
+    getMovies();
+})
+$("#genreSelect").change(function () {
+    getMovies();
+})
+$("#sortSelect").change(function () {
+    getMovies();
+})
+$("#pagesSelect").change(function () {
+    getMovies();
+})
