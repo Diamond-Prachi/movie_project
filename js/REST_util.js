@@ -51,6 +51,7 @@ function postMovie(movie) {
 }
 
 function deleteMovie(id) {
+    $("#loader").hide(500);
     const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
     const options = {
         method: 'DELETE',

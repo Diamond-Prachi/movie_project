@@ -3,6 +3,7 @@
 let movies
 
 function showMovies(movies) {
+    console.log(movies)
     movies.reverse().forEach(function (movie, index) {
         let movieCard =
             `<div class="movie-card col mb-3">
@@ -16,8 +17,9 @@ function showMovies(movies) {
                         <p id="actors" contenteditable="false" placeholder="Add Cast" class="card-text overflow-auto" >${movie.actors}</p>
                         <h5 id="genre" contenteditable="false" placeholder="Genre" class="card-title overflow-auto">${movie.genre}</h5>
                         <p id="plot" contenteditable="false" placeholder="Add Plot" class="card-text overflow-auto" >${movie.plot}</p>
-                        <div id="isEditorChoiceDiv" class="pl-3 mb-2 d-none" data-id="${movie.id}">
-                            <input class="form-check-input pl-2 text-muted "  type="checkbox" id="isEditorChoice" checked="${movie.isEditorChoice}">Editor's Choice
+                        <div class="isEditorChoiceDiv pl-3 mb-2 d-none">
+                            <input class="isEditorChoice form-check-input pl-2 text-muted " data-id="${movie.id}"  
+                                    type="checkbox" ${movie.isEditorChoice? "checked" : ""}>Editor's Choice
                         </div>
                         <div class="ctr-grp d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -57,14 +59,10 @@ function appendRating(rating) {
     return stars;
 }
 
-$("#addMovie").click(function () {
-    $("#addMovieForm").toggleClass("d-none");
-    refreshPage();
-})
-
 $("#cancelNewMovie").click(function () {
     $("#addMovieForm").toggleClass("d-none");
     refreshPage();
+    getMovies();
 })
 
 $("#saveNewMovie").click(function (e) {
@@ -77,7 +75,7 @@ $("#saveNewMovie").click(function (e) {
         rating: $("#ratingSelect").val(),
         genre: $("#genreMultiSelect").val().toString(),
         plot: $("#plotTextArea").val(),
-        isEditorChoice: $('#isEditorChoice').is(":checked")
+        isEditorChoice: $('.isEditorChoice').is(":checked")
     }
     $("#addMovieForm").toggleClass("d-none");
     postMovie(movie);
@@ -112,7 +110,7 @@ function deleteCancelClickEventListener() {
             // Show banner
             $("#banner").toggleClass("d-none", false);
             // Hide editor choice checkbox
-            $("#isEditorChoiceDiv").toggleClass("d-none", true);
+            $(".isEditorChoiceDiv").toggleClass("d-none", true);
         }
     })
 }
@@ -131,17 +129,18 @@ function editSaveClickEventListener() {
             editableFields.toggleClass("form-control")
 
             // Set the value of checkbox
-            $("#isEditorChoice").attr("checked", $("#isEditorChoiceDiv").hasClass("d-none"))
+            //$(".isEditorChoice").attr("checked", $(".isEditorChoiceDiv").hasClass("d-none"))
             // Hide banner
-            $("#banner").toggleClass("d-none", true);
+            //$("#banner").toggleClass("d-none", true);
             // Show editor's choice checkbox
-            $("#isEditorChoiceDiv").toggleClass("d-none", false);
+             $(".isEditorChoiceDiv").toggleClass("d-none");
 
             //change names of the button
             $(this).text("Save");
             $(this).siblings(".deleteBtn").text("Cancel")
 
         } else {
+            console.log($('.isEditorChoice').prop("checked"))
             // on Save
             let movie = {
                 title: editableFields.filter("#movieName").text(),
@@ -150,14 +149,14 @@ function editSaveClickEventListener() {
                 plot: editableFields.filter("#plot").text(),
                 actors: editableFields.filter("#actors").text(),
                 rating: $(this).parentsUntil(".card-body").find(".checked").length,
-                isEditorChoice: $('#isEditorChoice').is(":checked"),
-                genre: editableFields.filter("genre").text()
+                isEditorChoice: $('.isEditorChoice').prop("checked"),
+                genre: editableFields.filter("#genre").text()
             }
 
             // Show banner
             $("#banner").toggleClass("d-none", false);
             // Hide editor checkbox
-            $("#isEditorChoiceDiv").toggleClass("d-none", true);
+            $(".isEditorChoiceDiv").toggleClass("d-none", true);
 
             updateMovie($(this).data('id'), movie);
             refreshPage();
@@ -219,7 +218,7 @@ function showMovieSearchResult(movieResults) {
     console.log(movieResults.Search)
     let movieSearchResult = movieResults.Search;
     let movieResultDiv =
-        ` <div  class="border text-left px-3 border-top-0">`
+        ` <div  class="border text-left px-3 bg-light border-top-0">`
 
     movieSearchResult.forEach(function (movie) {
         movieResultDiv +=
@@ -237,11 +236,11 @@ function showMovieSearchResult(movieResults) {
     })
 
     movieResultDiv +=
-    `<div class="d-flex justify-content-between ">
-            <p class="d-inline mb-0">Harry Potter</p>
-            <a href="">Show</a>
-        </div>
-        <div class="d-flex justify-content-between ">
+        // `<div class="d-flex justify-content-between ">
+        //     <p class="d-inline mb-0">Harry Potter</p>
+        //     <a href="">Show</a>
+        // </div>
+        `<div class="d-flex justify-content-between ">
             <p class="d-inline mb-0">Don't see your favorite movie...</p>
             <a id="addMovieLink" href="#">Add Movie</a>
         </div>
@@ -252,11 +251,17 @@ function showMovieSearchResult(movieResults) {
 
 function addAddMovieEventListener() {
     $(".addMovieFromOMDB").click(function () {
-        alert($(this).data('id'))
         let id = $(this).data('id');
         getMovieFromOMDB(id);
         refreshPage()
         $("#searchResults").empty();
         $("#searchInput").val("");
     });
+
+    $("#addMovieLink").click(function () {
+        $("#searchResults").empty();
+        $("#searchInput").val("");
+        $("#addMovieForm").toggleClass("d-none");
+        refreshPage();
+    })
 }
