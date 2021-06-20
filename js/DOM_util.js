@@ -234,7 +234,7 @@ function showMovieSearchResult(movieResults) {
             </div>`
 
     })
-
+    // TODO : SHOW MOVIES IN DATABASE WITH SHOW OPTION
     movieResultDiv +=
         // `<div class="d-flex justify-content-between ">
         //     <p class="d-inline mb-0">Harry Potter</p>
@@ -264,4 +264,22 @@ function addAddMovieEventListener() {
         $("#addMovieForm").toggleClass("d-none");
         refreshPage();
     })
+}
+
+$("#BollywoodBtn").click(function (){
+    getMoviesForFilter();
+})
+
+function showBollywoodMovies(movies){
+    console.log(movies)
+    let bollywoodMovies=[]
+    for(let i = 0; i<movies.length; i++){
+        if(movies[i].language !== undefined){
+            if(movies[i].language.includes("Hindi")){
+                bollywoodMovies.push(movies[i])
+            }
+        }
+    }
+    refreshPage();
+    showMovies(bollywoodMovies);
 }
