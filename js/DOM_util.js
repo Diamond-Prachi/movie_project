@@ -16,8 +16,8 @@ function showMovies(movies) {
                         <p id="actors" contenteditable="false" placeholder="Add Cast" class="card-text overflow-auto" >${movie.actors}</p>
                         <h5 id="genre" contenteditable="false" placeholder="Genre" class="card-title overflow-auto">${movie.genre}</h5>
                         <p id="plot" contenteditable="false" placeholder="Add Plot" class="card-text overflow-auto" >${movie.plot}</p>
-                        <div id="isEditorChoiceDiv" class="pl-3 mb-2 d-none">
-                            <input class="form-check-input pl-2 text-muted " data-id="${movie.id}" type="checkbox" id="isEditorChoice" checked="${movie.isEditorChoice}">Editor's Choice
+                        <div id="isEditorChoiceDiv" class="pl-3 mb-2 d-none" data-id="${movie.id}">
+                            <input class="form-check-input pl-2 text-muted "  type="checkbox" id="isEditorChoice" checked="${movie.isEditorChoice}">Editor's Choice
                         </div>
                         <div class="ctr-grp d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -193,7 +193,7 @@ function showBanner(isEditorChoice) {
 
 function creatOMDBMovieObj(OMDBmovie) {
     console.log(OMDBmovie)
-    if(!OMDBmovie.Error){
+    if (!OMDBmovie.Error) {
         let movie = {
             title: OMDBmovie.Title ? OMDBmovie.Title : "",
             year: OMDBmovie.Year ? OMDBmovie.Year : "",
@@ -204,17 +204,59 @@ function creatOMDBMovieObj(OMDBmovie) {
             genre: OMDBmovie.Genre ? OMDBmovie.Genre : "",
             plot: OMDBmovie.Plot ? OMDBmovie.Plot : "",
             language: OMDBmovie.Language ? OMDBmovie.Language : "",
-            rating: ((OMDBmovie.imdbRating)/2).toFixed(0)
+            rating: ((OMDBmovie.imdbRating) / 2).toFixed(0)
         };
         console.log(movie)
         postMovie(movie)
         refreshPage()
-    }else{
+    } else {
         console.log(OMDBmovie.Error)
     }
 
 }
 
-function showMovieSearchResult(movieResults){
-    console.log(movieResults)
+function showMovieSearchResult(movieResults) {
+    console.log(movieResults.Search)
+    let movieSearchResult = movieResults.Search;
+    let movieResultDiv =
+        ` <div  class="border text-left px-3 border-top-0">`
+
+    movieSearchResult.forEach(function (movie) {
+        movieResultDiv +=
+            `<div class="addMovieFromOMDB d-flex justify-content-between" data-id='${movie.imdbID}'>
+                <p class="d-inline mb-0">${movie.Title}</p>
+                <a  href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                </a>
+            </div>`
+
+    })
+
+    movieResultDiv +=
+    `<div class="d-flex justify-content-between ">
+            <p class="d-inline mb-0">Harry Potter</p>
+            <a href="">Show</a>
+        </div>
+        <div class="d-flex justify-content-between ">
+            <p class="d-inline mb-0">Don't see your favorite movie...</p>
+            <a id="addMovieLink" href="#">Add Movie</a>
+        </div>
+    </div>`
+    $("#searchResults").append(movieResultDiv);
+    addAddMovieEventListener();
+}
+
+function addAddMovieEventListener() {
+    $(".addMovieFromOMDB").click(function () {
+        alert($(this).data('id'))
+        let id = $(this).data('id');
+        getMovieFromOMDB(id);
+        refreshPage()
+        $("#searchResults").empty();
+        $("#searchInput").val("");
+    });
 }

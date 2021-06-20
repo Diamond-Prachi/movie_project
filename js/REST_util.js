@@ -13,7 +13,7 @@ function getMovies() {
     fetch(url, options)
         .then(response => response.json()
         ).then(data => {
-        $("#loader").hide(500);//h
+        $("#loader").hide(500);
         showMovies(data)
     })
         /* Movie was created successfully */
@@ -80,8 +80,8 @@ function updateMovie(id, movie) {
         .catch(error => console.error(error)); /* handle errors */
 }
 
-function getMovieFromOMDB(movieName){
-    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&t=${movieName}`;
+function getMovieFromOMDB(omdbId){
+    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&i=${omdbId}`;
     console.log(url);
     const options = {
         method: 'GET'
