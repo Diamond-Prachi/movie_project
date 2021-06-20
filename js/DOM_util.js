@@ -222,7 +222,8 @@ function showMovieSearchResult(movieResults) {
 
     movieSearchResult.forEach(function (movie) {
         movieResultDiv +=
-            `<div class="addMovieFromOMDB d-flex justify-content-between" data-id='${movie.imdbID}'>
+            `<div class="addMovieFromOMDB d-flex justify-content-between" 
+                    data-name="${movie.Title}" data-year="${movie.Year}" data-id='${movie.imdbID}'>
                 <p class="d-inline mb-0">${movie.Title}</p>
                 <a  href="#">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -252,10 +253,13 @@ function showMovieSearchResult(movieResults) {
 function addAddMovieEventListener() {
     $(".addMovieFromOMDB").click(function () {
         let id = $(this).data('id');
-        getMovieFromOMDB(id);
-        refreshPage()
-        $("#searchResults").empty();
-        $("#searchInput").val("");
+        if(confirm(`Would you like to ${$(this).data('name')}, year: ${$(this).data('year')}`)){
+            getMovieFromOMDB(id);
+            refreshPage()
+            $("#searchResults").empty();
+            $("#searchInput").val("");
+        }
+
     });
 
     $("#addMovieLink").click(function () {
