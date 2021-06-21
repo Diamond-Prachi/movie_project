@@ -1,7 +1,6 @@
 "use strict";
-getMovies();
 
-// getMovieFromOMDB("Friday");
+getMovies();
 
 function getMovies() {
     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
@@ -18,33 +17,6 @@ function getMovies() {
         showMovies(data)
     })
         /* Movie was created successfully */
-        .catch(error => console.error(error)); /* handle errors */
-}
-
-function getMoviesForFilter() {
-    const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    };
-    fetch(url, options)
-        .then(response => response.json())
-        .then(data => showBollywoodMovies(data))
-        .catch(error => console.error(error)); /* handle errors */
-}
-
-function getMovie(id) {
-    const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    };
-    fetch(url, options)
-        .then(response => console.log(response.json())) /* Movie was created successfully */
         .catch(error => console.error(error)); /* handle errors */
 }
 
@@ -96,6 +68,8 @@ function updateMovie(id, movie) {
         .catch(error => console.error(error)); /* handle errors */
 }
 
+// OMDB
+
 function getMovieFromOMDB(omdbId) {
     const url = `http://www.omdbapi.com/?apikey=9c10a4ab&i=${omdbId}`;
     console.log(url);
@@ -119,3 +93,32 @@ function searchMovieFromOMDB(movieName) {
         .then(data => showMovieSearchResult(data))
         .catch(error => alert("Movie not found")); /* handle errors */
 }
+
+//WIP
+
+// function getMoviesForFilter() {
+//     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
+//     const options = {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         }
+//     };
+//     fetch(url, options)
+//         .then(response => response.json())
+//         .then(data => showBollywoodMovies(data))
+//         .catch(error => console.error(error)); /* handle errors */
+// }
+
+// function getMovie(id) {
+//     const url = `https://movie-project-diamond-prachi.glitch.me/movies/${id}`;
+//     const options = {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         }
+//     };
+//     fetch(url, options)
+//         .then(response => console.log(response.json())) /* Movie was created successfully */
+//         .catch(error => console.error(error)); /* handle errors */
+// }
