@@ -13,31 +13,66 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-
         <main>
-
             <section class="py-5 text-center container">
                 <div class="row py-lg-5">
                     <div class="col-lg-6 col-md-8 mx-auto">
-                        <h1 class="fw-light">Screens Come True</h1>
-                        <p class="lead text-muted">Here you can search or add movies through OMDB!</p>
+                        <h3 class="fw-light">Screens Come True</h3>
+                        <p class="lead">Here you can search or add movies through OMDB!</p>
                         <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search by Movie Title" aria-label="Search"
-                                   aria-describedby="search-addon" id="searchInput" />
-                            <button type="button" id="searchBtn" class="btn btn-outline-primary">search</button>
+                            <input type="search" class="form-control rounded" placeholder="Search by Movie Title"
+                                   aria-label="Search"
+                                   aria-describedby="search-addon" id="searchInput"/>
+                            <button type="button" id="searchBtn" class="btn btn-secondary">Search</button>
                         </div>
-                        <p>
-                            <a id="addMovie" href="#" class="btn btn-primary my-2">Add Movie</a>
-                            <a href="#" class="btn btn-secondary my-2">Search Movie</a>
-                        </p>
+                        <div id="searchResults">
+                            <!--      Div to show SearchResults     -->
+                        </div>
                     </div>
                 </div>
-                <div id="loader" class="text-center">
+                <div id="loader" class="text-center d-none">
                     <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                         <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div id="filterAndSortDiv"class="row d-flex justify-content-around align-items-center mt-5">
+                    <div class="form-row mx-0">
+                        <div class="form-group mr-sm-1 col-md-5 ">
+                            <select class="form-control " id="langSelect">
+                                <option>Language</option>
+                                <option>English</option>
+                                <option>Hindi</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select class="form-control" id="genreSelect">
+                                <option>Genre</option>
+                                <option>Action</option>
+                                <option>Comedy</option>
+                                <option>Drama</option>
+                                <option>Fantasy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group mr-sm-1 col-md-6">
+                            <select class="form-control " id="sortSelect">
+                                <option>Sort</option>
+                                <option>Title (A-Z)</option>
+                                <option>Title (Z-A)</option>
+                                <option>Newest-Oldest</option>
+                                <option>Oldest-Newest</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <select class="form-control" id="pagesSelect">
+                                <option>Show all</option>
+
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div id="addMovieForm" class="d-none container">
@@ -54,9 +89,13 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="castInput" placeholder="Cast">
                         </div>
-                        <div class="form-group">
-                            <label for="ratingSelect">Rating</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="isEditorChoice">
+                            <label class="form-check-label" for="inlineCheckbox1">Editor's Choice</label>
+                        </div>
+                        <div class="form-group text-left">
                             <select class="form-control" id="ratingSelect">
+                                <option selected>Rating</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -78,20 +117,18 @@
                             <textarea class="form-control" id="plotTextArea" rows="3" placeholder="Plot"></textarea>
                         </div>
                         <button id="saveNewMovie" type="submit" class="btn btn-primary mb-2">Save</button>
-                        <button type="submit" class="btn btn-primary mb-2">Cancel</button>
+                        <button id="cancelNewMovie" type="submit" class="btn btn-primary mb-2">Cancel</button>
                     </form>
                 </div>
             </section>
 
-            <div class="album py-5 bg-light">
+            <div id="movieDivWrapper" class="album py-5 bg-light">
                 <div class="container">
                     <div id="moviesDiv" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3">
-
 
                     </div>
                 </div>
             </div>
-
         </main>
 
         <footer class="text-muted py-5">
@@ -101,7 +138,6 @@
                 </p>
             </div>
         </footer>
-
 
         <script src="https://code.jquery.com/jquery-3.6.0.js"
                 integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

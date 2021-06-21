@@ -1,3 +1,9 @@
+body{
+    background-color: rgba(219, 101, 17, 0.8);
+    /*color: white;*/
+}
+
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -13,7 +19,7 @@
 }
 
 .checked {
-    color: orange;
+    color: rgba(219, 101, 17, 0.8);
 }
 
 [contenteditable]:empty:before {
@@ -27,9 +33,15 @@
 }
 
 .card-img-top {
-
     object-fit: cover;
+}
 
-
-
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color:white;
+    background: rgba(219, 101, 17, 0.8);
+    padding: 0.3rem;
 }
