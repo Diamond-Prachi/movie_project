@@ -130,7 +130,7 @@ function editSaveClickEventListener() {
             $(this).siblings(".deleteBtn").text("Cancel")
 
         } else {
-            console.log($('.isEditorChoice').prop("checked"))
+            console.log($('.isEditorChoice').is("checked"))
             // on Save
             let movie = {
                 title: editableFields.filter("#movieName").text(),
@@ -204,6 +204,7 @@ $("#pagesSelect").change(function () {
 })
 
 // Filter and Sort
+
 function filterMovies(movies) {
     let langFilteredMovies = [];
     let genreFilteredMovies = [];
@@ -267,6 +268,8 @@ function filterMovies(movies) {
     refreshPage();
     return filteredMovies;
 }
+
+//Search
 
 $("#searchBtn").click(function () {
     searchMovieFromOMDB($("#searchInput").val());
