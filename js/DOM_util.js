@@ -11,6 +11,7 @@ function refreshPage() {
 
 function showMovies(movies) {
     let filteredMovies = filterMovies(movies);
+    //let MoviesPerPage = addPages(filteredMovies);
     console.log(filteredMovies)
     filteredMovies.reverse().forEach(function (movie, index) {
         let movieCard =
@@ -25,7 +26,7 @@ function showMovies(movies) {
                         <p id="actors" contenteditable="false" placeholder="Add Cast" class="card-text overflow-auto" >${movie.actors}</p>
                         <p id="language" contenteditable="false" placeholder="Add Language" class="card-text overflow-auto" >${movie.language}</p>
                         <h5 id="genre" contenteditable="false" placeholder="Genre" class="card-title overflow-auto">${movie.genre}</h5>
-                        <p id="plot" rows="4" cols="30" contenteditable="false" placeholder="Add Plot" class="card-text overflow-auto" >${movie.plot}</p>
+                        <p id="plot" contenteditable="false" placeholder="Add Plot" class="h-50 card-text overflow-auto" >${movie.plot}</p>
                         <div class="isEditorChoiceDiv pl-3 mb-2 d-none">
                             <input class="isEditorChoice form-check-input pl-2 text-muted " data-id="${movie.id}"  
                                     type="checkbox" ${movie.isEditorChoice ? "checked" : ""}>Editor's Choice
@@ -161,6 +162,19 @@ function showBanner(isEditorChoice) {
         return ''
     }
 }
+
+// function addPages(movies){
+//     let pages = movies.length / 6;
+//     let start = 0;
+//     let to = 1
+//     for(let i=0; i< pages; i++){
+//         start = i + pages*i
+//         to = start + 5;
+//         $("#pagesSelect").append(`<option>${start}-${to}</option>`)
+//     }
+//
+//
+// }
 
 // Add and save new movie
 
