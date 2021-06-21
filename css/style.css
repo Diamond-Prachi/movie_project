@@ -45,3 +45,26 @@ body{
     background: rgba(219, 101, 17, 0.8);
     padding: 0.3rem;
 }
+
+.fw-light{
+    color: #F8F5F1;
+    font-family: 'Norican', cursive;
+    font-size: 75px;
+}
+
+.lead {
+    color: #F8F5F1;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* will implement background later */
+/*#bg-img{*/
+/*    background-image: url("https://images.pexels.com/photos/713149/pexels-photo-713149.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");*/
+/*    background-size: auto;*/
+/*    background-repeat: repeat;*/
+/*}*/
+
+#anchor{
+    color: #F8F5F1;
+    font-family: 'Open Sans', sans-serif;
+}
