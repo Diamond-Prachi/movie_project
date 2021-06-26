@@ -71,7 +71,7 @@ function updateMovie(id, movie) {
 // OMDB
 
 function getMovieFromOMDB(omdbId) {
-    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&i=${omdbId}`;
+    const url = `https://cors-anywhere.hirshwebsite.website/http://www.omdbapi.com/?apikey=9c10a4ab&i=${omdbId}`;
     console.log(url);
     const options = {
         method: 'GET'
@@ -83,7 +83,7 @@ function getMovieFromOMDB(omdbId) {
 }
 
 function searchMovieFromOMDB(movieName) {
-    const url = `http://www.omdbapi.com/?apikey=9c10a4ab&s=${movieName}`;
+    const url = `https://cors-anywhere.hirshwebsite.website/http://www.omdbapi.com/?apikey=9c10a4ab&s=${movieName}`;
     console.log(url);
     const options = {
         method: 'GET'
@@ -94,7 +94,7 @@ function searchMovieFromOMDB(movieName) {
         .catch(error => alert("Movie not found")); /* handle errors */
 }
 
-//WIP
+// WIP
 
 // function getMoviesForFilter() {
 //     const url = `https://movie-project-diamond-prachi.glitch.me/movies`;
