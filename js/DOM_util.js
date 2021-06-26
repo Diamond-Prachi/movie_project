@@ -141,7 +141,8 @@ function editSaveClickEventListener() {
                 actors: editableFields.filter("#actors").text(),
                 rating: $(this).parentsUntil(".card-body").find(".checked").length,
                 isEditorChoice: $('.isEditorChoice').prop("checked"),
-                genre: editableFields.filter("#genre").text()
+                genre: editableFields.filter("#genre").text(),
+                language: editableFields.filter("#language").text()
             }
             console.log(movie)
             // Show banner
@@ -194,6 +195,7 @@ $("#saveNewMovie").click(function (e) {
         rating: $("#ratingSelect").val(),
         genre: $("#genreMultiSelect").val().toString(),
         plot: $("#plotTextArea").val(),
+        language: $("#language").val(),
         isEditorChoice: $('.isEditorChoice').prop(":checked")
     }
     $("#addMovieForm").toggleClass("d-none");
